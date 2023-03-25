@@ -24,6 +24,10 @@ RUN apt-get update \
 
 RUN curl -fLo /etc/udev/rules.d/99-platformio-udev.rules --create-dirs https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules
 
+# Grant user "$USERNAME" access to serial ports (/dev/ttyACM?)
+# Prerequisite for "pio device monitor"
+RUN usermod -aG dialout $USERNAME
+
 USER $USERNAME
 
 RUN python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/develop/scripts/get-platformio.py)"
